@@ -12,20 +12,22 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Social Scheduler AI — Cronogramas e aprovações de social com IA",
-  description: "Gere cronogramas claros, organize em Kanban e colete aprovações por link público.",
+  description:
+    "Plataforma para agências criarem cronogramas com IA, organizarem em Kanban/Calendário e aprovarem via link público. Planos desde R$ 0/mês.",
   openGraph: {
-    title: "Social Scheduler AI",
+    title: "Social Scheduler AI — Cronogramas e aprovações de social com IA",
     description:
-      "Gere cronogramas claros, organize em Kanban e colete aprovações por link público.",
+      "Plataforma para agências criarem cronogramas com IA, organizarem em Kanban/Calendário e aprovarem via link público. Planos desde R$ 0/mês.",
     url: "https://example.com",
     siteName: "Social Scheduler AI",
     type: "website",
+    locale: "pt_BR",
   },
   twitter: {
     card: "summary",
-    title: "Social Scheduler AI",
+    title: "Social Scheduler AI — Cronogramas e aprovações de social com IA",
     description:
-      "Gere cronogramas claros, organize em Kanban e colete aprovações por link público.",
+      "Plataforma para agências criarem cronogramas com IA, organizarem em Kanban/Calendário e aprovarem via link público. Planos desde R$ 0/mês.",
   },
 };
 

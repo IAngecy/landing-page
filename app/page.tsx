@@ -11,7 +11,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <Pricing />
+        <Pricing showComparisonButton={true} />
         <Workflow />
         <FAQ />
       </main>

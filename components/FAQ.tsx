@@ -3,23 +3,27 @@ type QA = { q: string; a: string };
 const faqs: QA[] = [
   {
     q: "Preciso integrar redes sociais agora?",
-    a: "No MVP, agendamento é simulado.",
+    a: "Não, no MVP o agendamento é simulado. O agendamento real será lançado em uma fase futura.",
   },
   {
-    q: "Posso editar o conteúdo da IA antes de inserir?",
-    a: "Sim, sempre.",
+    q: "Posso editar o conteúdo gerado pela IA antes de enviar?",
+    a: "Sim, sempre. Você pode editar qualquer conteúdo antes de inserir no calendário.",
   },
   {
-    q: "O cliente precisa de login?",
-    a: "Não, ele usa um link público por projeto.",
+    q: "O cliente precisa criar uma conta para aprovar?",
+    a: "Não, o cliente usa um link público por projeto. Não precisa de login ou cadastro.",
   },
   {
-    q: "Posso testar antes?",
-    a: "Use a área de DEV para explorar.",
+    q: "Posso testar sem compromisso?",
+    a: "Sim, o plano Starter é gratuito. Você pode começar agora mesmo.",
   },
   {
-    q: "O que vem a seguir?",
-    a: "Integrações nativas e automações.",
+    q: "O que acontece se eu exceder a cota de posts da IA?",
+    a: "Nos planos Starter e Pro, não há excedentes — a geração é bloqueada quando a cota termina. No plano Agency, excedentes opcionais podem ser configurados.",
+  },
+  {
+    q: "Posso mudar de plano depois?",
+    a: "Sim, você pode atualizar ou cancelar seu plano a qualquer momento.",
   },
 ];
 
