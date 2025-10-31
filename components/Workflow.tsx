@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useRef } from "react";
 
 // Constantes movidas para fora do componente para evitar recriação
 const FLOW_COMPONENTS = [
@@ -153,122 +153,144 @@ FlowItem.displayName = "FlowItem";
 
 // Componente de feature card memoizado
 const FeatureCard = memo(
-  ({ icon, title, description }: { icon: string; title: string; description: string }) => (
-    <div className="rounded-lg border border-foreground/10 bg-foreground/2 p-5">
-      <h3 className="text-base font-semibold mb-2 flex items-center gap-2">
-        <span className="text-xl">{icon}</span>
-        {title}
-      </h3>
-      <p className="text-sm text-foreground/70 leading-relaxed">{description}</p>
-    </div>
-  )
+  ({
+    icon,
+    title,
+    description,
+    isFirst = false,
+    isLast = false,
+  }: {
+    icon: string;
+    title: string;
+    description: string;
+    isFirst?: boolean;
+    isLast?: boolean;
+  }) => {
+    const roundedClasses = [
+      isFirst && "rounded-tr-lg", // Primeiro: apenas topo direito arredondado
+      isLast && "rounded-br-lg", // Último: apenas inferior direito arredondado
+      !isFirst && !isLast && "", // Cards do meio: sem bordas arredondadas
+    ]
+      .filter(Boolean)
+      .join(" ");
+
+    return (
+      <div className={`${roundedClasses} border border-foreground/10 p-5`}>
+        <h3 className="text-base font-semibold mb-2 flex items-center gap-2">
+          <span className="text-xl">{icon}</span>
+          {title}
+        </h3>
+        <p className="text-sm text-foreground/70 leading-relaxed">{description}</p>
+      </div>
+    );
+  }
 );
 FeatureCard.displayName = "FeatureCard";
 
 function Workflow() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
     <section className="py-20 sm:py-24 bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-          {/* Main Content - Left Side */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Header */}
-            <div className="pl-20">
-              <h2 className="text-5xl sm:text-6xl font-bold tracking-tight mb-4">
-                <span className="text-[#5B8CFF]">/</span>
-                <span className="text-foreground">fluxo</span>
-              </h2>
-              <p className="text-lg text-foreground/70 leading-relaxed">
-                Organize seus cronogramas, gere conteúdo com IA e colete aprovações de forma simples
-                e eficiente.
-              </p>
-            </div>
+        {/* Header - Ocupa toda a largura */}
+        <div className="pl-20 mb-12">
+          <h2 className="text-5xl sm:text-6xl font-bold tracking-tight mb-4">
+            <span className="text-[#5B8CFF]">/</span>
+            <span className="text-foreground">fluxo</span>
+          </h2>
+          <p className="text-lg text-foreground/70 leading-relaxed">
+            Organize seus cronogramas, gere conteúdo com IA e colete aprovações
+            <br /> de forma simples e eficiente.
+          </p>
+        </div>
 
-            {/* Flow Diagram */}
-            <div className="rounded-lg border border-foreground/10 bg-foreground/2 p-6">
-              <div className="space-y-8">
-                {/* Flow Steps - Horizontal em desktop, vertical em mobile */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-1 md:gap-2">
-                  {/* Ideia */}
-                  <div className="flex flex-col items-center gap-2 min-w-[80px] sm:min-w-0">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-[#5B8CFF] bg-[#5B8CFF]/10 flex items-center justify-center">
-                      <IdeaIcon />
-                    </div>
-                    <span className="text-xs font-semibold text-foreground text-center">Ideia</span>
+        {/* Grid com as duas caixas lado a lado */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-x-8 lg:gap-x-4 items-start rounded-lg border border-white/20 pl-4">
+          {/* Flow Diagram */}
+          <div className="rounded-lg border border-foreground/10 bg-foreground/5 pr-6 pl-6 lg:pl-8 self-center flex flex-col justify-center h-[calc(100%-2rem)]">
+            <div className="space-y-8 py-10">
+              {/* Flow Steps - Horizontal em desktop, vertical em mobile */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-1 md:gap-2">
+                {/* Ideia */}
+                <div className="flex flex-col items-center gap-2 min-w-[80px] sm:min-w-0">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-[#5B8CFF] bg-[#5B8CFF]/10 flex items-center justify-center">
+                    <IdeaIcon />
                   </div>
-                  <div className="hidden sm:block flex-1 max-w-[60px] border-t-2 border-dashed border-[#5B8CFF]/40"></div>
-                  <div className="block sm:hidden w-1 h-6 border-l-2 border-dashed border-[#5B8CFF]/40"></div>
-
-                  {/* Produção */}
-                  <div className="flex flex-col items-center gap-2 min-w-[80px] sm:min-w-0">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-[#5B8CFF] bg-[#5B8CFF]/10 flex items-center justify-center">
-                      <ProductionIcon />
-                    </div>
-                    <span className="text-xs font-semibold text-foreground text-center">
-                      Produção
-                    </span>
-                  </div>
-                  <div className="hidden sm:block flex-1 max-w-[60px] border-t-2 border-dashed border-[#5B8CFF]/40"></div>
-                  <div className="block sm:hidden w-1 h-6 border-l-2 border-dashed border-[#5B8CFF]/40"></div>
-
-                  {/* Revisão */}
-                  <div className="flex flex-col items-center gap-2 min-w-[80px] sm:min-w-0">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-[#5B8CFF] bg-[#5B8CFF]/10 flex items-center justify-center">
-                      <ReviewIcon />
-                    </div>
-                    <span className="text-xs font-semibold text-foreground text-center">
-                      Revisão
-                    </span>
-                  </div>
-                  <div className="hidden sm:block flex-1 max-w-[60px] border-t-2 border-dashed border-[#5B8CFF]/40"></div>
-                  <div className="block sm:hidden w-1 h-6 border-l-2 border-dashed border-[#5B8CFF]/40"></div>
-
-                  {/* Aprovação */}
-                  <div className="flex flex-col items-center gap-2 min-w-[80px] sm:min-w-0">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-[#5B8CFF] bg-[#5B8CFF]/10 flex items-center justify-center">
-                      <ApprovalIcon />
-                    </div>
-                    <span className="text-xs font-semibold text-foreground text-center">
-                      Aprovação
-                    </span>
-                  </div>
-                  <div className="hidden sm:block flex-1 max-w-[60px] border-t-2 border-dashed border-[#5B8CFF]/40"></div>
-                  <div className="block sm:hidden w-1 h-6 border-l-2 border-dashed border-[#5B8CFF]/40"></div>
-
-                  {/* Agendamento */}
-                  <div className="flex flex-col items-center gap-2 min-w-[80px] sm:min-w-0">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-[#5B8CFF] bg-[#5B8CFF]/10 flex items-center justify-center">
-                      <ScheduleIcon />
-                    </div>
-                    <span className="text-xs font-semibold text-foreground text-center">
-                      Agendamento
-                    </span>
-                  </div>
+                  <span className="text-xs font-semibold text-foreground text-center">Ideia</span>
                 </div>
+                <div className="hidden sm:block flex-1 max-w-[60px] border-t-2 border-dashed border-[#5B8CFF]/40"></div>
+                <div className="block sm:hidden w-1 h-6 border-l-2 border-dashed border-[#5B8CFF]/40"></div>
 
-                {/* Components Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
-                  {FLOW_COMPONENTS.map((item, idx) => (
-                    <FlowItem
-                      key={`${item.label}-${idx}`}
-                      icon={item.icon}
-                      label={item.label}
-                      desc={item.desc}
-                    />
-                  ))}
+                {/* Produção */}
+                <div className="flex flex-col items-center gap-2 min-w-[80px] sm:min-w-0">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-[#5B8CFF] bg-[#5B8CFF]/10 flex items-center justify-center">
+                    <ProductionIcon />
+                  </div>
+                  <span className="text-xs font-semibold text-foreground text-center">
+                    Produção
+                  </span>
                 </div>
+                <div className="hidden sm:block flex-1 max-w-[60px] border-t-2 border-dashed border-[#5B8CFF]/40"></div>
+                <div className="block sm:hidden w-1 h-6 border-l-2 border-dashed border-[#5B8CFF]/40"></div>
+
+                {/* Revisão */}
+                <div className="flex flex-col items-center gap-2 min-w-[80px] sm:min-w-0">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-[#5B8CFF] bg-[#5B8CFF]/10 flex items-center justify-center">
+                    <ReviewIcon />
+                  </div>
+                  <span className="text-xs font-semibold text-foreground text-center">Revisão</span>
+                </div>
+                <div className="hidden sm:block flex-1 max-w-[60px] border-t-2 border-dashed border-[#5B8CFF]/40"></div>
+                <div className="block sm:hidden w-1 h-6 border-l-2 border-dashed border-[#5B8CFF]/40"></div>
+
+                {/* Aprovação */}
+                <div className="flex flex-col items-center gap-2 min-w-[80px] sm:min-w-0">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-[#5B8CFF] bg-[#5B8CFF]/10 flex items-center justify-center">
+                    <ApprovalIcon />
+                  </div>
+                  <span className="text-xs font-semibold text-foreground text-center">
+                    Aprovação
+                  </span>
+                </div>
+                <div className="hidden sm:block flex-1 max-w-[60px] border-t-2 border-dashed border-[#5B8CFF]/40"></div>
+                <div className="block sm:hidden w-1 h-6 border-l-2 border-dashed border-[#5B8CFF]/40"></div>
+
+                {/* Agendamento */}
+                <div className="flex flex-col items-center gap-2 min-w-[80px] sm:min-w-0">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-[#5B8CFF] bg-[#5B8CFF]/10 flex items-center justify-center">
+                    <ScheduleIcon />
+                  </div>
+                  <span className="text-xs font-semibold text-foreground text-center">
+                    Agendamento
+                  </span>
+                </div>
+              </div>
+
+              {/* Components Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+                {FLOW_COMPONENTS.map((item, idx) => (
+                  <FlowItem
+                    key={`${item.label}-${idx}`}
+                    icon={item.icon}
+                    label={item.label}
+                    desc={item.desc}
+                  />
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Features Sidebar - Right Side */}
-          <div className="lg:col-span-1 space-y-5">
-            {FEATURES.map((feature) => (
+          {/* Features Sidebar */}
+          <div className="pr-0">
+            {FEATURES.map((feature, index) => (
               <FeatureCard
                 key={feature.title}
                 icon={feature.icon}
                 title={feature.title}
                 description={feature.description}
+                isFirst={index === 0}
+                isLast={index === FEATURES.length - 1}
               />
             ))}
           </div>

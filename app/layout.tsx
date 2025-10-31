@@ -8,6 +8,8 @@ const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+// Roboto Flex via Google Fonts CDN (não disponível via next/font, então usamos CSS)
+
 export const metadata: Metadata = {
   title: "Social Scheduler AI — Cronogramas e aprovações de social com IA",
   description: "Gere cronogramas claros, organize em Kanban e colete aprovações por link público.",

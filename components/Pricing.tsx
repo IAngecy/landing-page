@@ -97,12 +97,19 @@ export default function Pricing() {
           </p>
         </div>
         <div>
-          <div className="mt-10 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 cursor-pointer">
+          <div className="mt-10 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className="cursor-target rounded-xl border border-foreground/10 bg-background p-6 shadow-sm flex flex-col justify-between"
+                className={`cursor-target rounded-xl border border-foreground/10 p-6 shadow-sm flex flex-col justify-between relative transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#5B8CFF]/20 hover:border-[#5B8CFF]/30 ${
+                  plan.name === "Pro" ? "bg-foreground/5" : "bg-background"
+                }`}
               >
+                {plan.name === "Pro" && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 text-xs font-medium text-white bg-[#5B8CFF] rounded-full shadow-sm">
+                    Recomendado
+                  </span>
+                )}
                 <div className="flex items-baseline justify-between">
                   <h3 className="text-lg font-semibold">{plan.name}</h3>
                   <span className="text-sm text-foreground/60">{plan.blurb}</span>

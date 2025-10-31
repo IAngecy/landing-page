@@ -1,6 +1,8 @@
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import Pricing from "@/components/Pricing";
 import Workflow from "@/components/Workflow";
 
 export default function Home() {
@@ -8,8 +10,8 @@ export default function Home() {
     <div className="min-h-screen">
       <Header />
       <main>
-        {/* <Hero /> */}
-        {/* <Pricing /> */}
+        <Hero />
+        <Pricing />
         <Workflow />
         <FAQ />
       </main>
