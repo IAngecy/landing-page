@@ -25,23 +25,50 @@ type Plan = {
 };
 
 const plans: Plan[] = [
+  // {
+  //   name: "Demonstração",
+  //   price: "R$ 0",
+  //   blurb: "Teste o produto.",
+  //   features: ["Geração de posts com dados mockados", "Quadro Kanban", "1 projeto"],
+  // },
   {
     name: "Starter",
-    price: "R$ 0",
-    blurb: "Para explorar o produto.",
-    features: ["Geração de posts básica", "Quadro Kanban simples", "1 projeto"],
+    price: "R$ 129,00",
+    blurb: "Para começar seu negócio.",
+    features: [
+      "200 posts IA/mês",
+      "Geração de posts",
+      "Quadro Kanban",
+      "2 projetos",
+      "Aprovação por link",
+      "Calendário",
+    ],
   },
   {
     name: "Pro",
-    price: "R$ 149/mês",
+    price: "R$ 399/mês",
     blurb: "Para equipes em produção.",
-    features: ["IA avançada", "Calendário e Kanban", "Aprovação por link"],
+    features: [
+      "5 usuários",
+      "10 clientes",
+      "800 posts IA/mês",
+      "Portal de aprovação público",
+      "Feriados aprovados",
+    ],
   },
   {
-    name: "Agency",
-    price: "R$ 399/mês",
+    name: "Business",
+    price: "R$ 999/mês",
     blurb: "Para múltiplos clientes.",
-    features: ["Vários projetos", "Fluxos de aprovação", "Colaboração de equipe"],
+    features: [
+      "15 usuários",
+      "30 clientes",
+      "3.000 posts IA/mês",
+      "Auditoria avançada",
+      "Suporte prioritário",
+      "Integração com Kanbans externos",
+      "Feriados aprovados",
+    ],
   },
 ];
 
@@ -74,7 +101,7 @@ export default function Pricing() {
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className="cursor-target rounded-xl border border-foreground/10 bg-background p-6 shadow-sm"
+                className="cursor-target rounded-xl border border-foreground/10 bg-background p-6 shadow-sm flex flex-col justify-between"
               >
                 <div className="flex items-baseline justify-between">
                   <h3 className="text-lg font-semibold">{plan.name}</h3>
