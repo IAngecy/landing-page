@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+build
+coverage
+*.log
+**/*.svg
+**/*.ico
+**/*.png
+**/*.jpg
+**/*.webp
+**/*.gif
+**/*.lock
+
