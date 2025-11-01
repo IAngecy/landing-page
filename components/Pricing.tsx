@@ -1,6 +1,6 @@
 "use client";
 
-import { plans } from "@/data/pricing";
+import { plans as defaultPlans, type Plan } from "@/data/pricing";
 import { getAppUrl, getTryUrl } from "@/lib/links";
 import Link from "next/link";
 import { useRef } from "react";
@@ -9,41 +9,84 @@ import TargetCursor from "./TargetCursor";
 
 interface PricingProps {
   showComparisonButton?: boolean;
+  showTargetCursor?: boolean;
+  plans?: Plan[];
+  showParticles?: boolean;
 }
 
-export default function Pricing({ showComparisonButton = false }: PricingProps) {
+export default function Pricing({
+  showComparisonButton = false,
+  showTargetCursor = true,
+  plans = defaultPlans,
+  showParticles = true,
+}: PricingProps) {
   const appUrl = getAppUrl();
   const tryUrl = getTryUrl();
   const sectionRef = useRef<HTMLElement>(null);
 
   return (
-    <section ref={sectionRef} id="precos" className="py-20 sm:py-24 background-animation-content">
-      <Particles
-        particleColors={["#ffffff", "#ffffff"]}
-        particleCount={200}
-        particleSpread={10}
-        speed={0.09}
-        particleBaseSize={100}
-        moveParticlesOnHover={false}
-        alphaParticles={true}
-        disableRotation={true}
-      />
-      <TargetCursor spinDuration={2} hideDefaultCursor={true} containerRef={sectionRef} />
-      <div className="content-centered-absolute mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <section
+      ref={sectionRef}
+      id="precos"
+      className="pt-32 pb-32 sm:pt-40 sm:pb-40 background-animation-content"
+    >
+      {showParticles && (
+        <Particles
+          particleColors={["#ffffff", "#ffffff"]}
+          particleCount={showComparisonButton ? 200 : 500}
+          particleSpread={10}
+          speed={showComparisonButton ? 0.09 : 0.1}
+          particleBaseSize={100}
+          moveParticlesOnHover={false}
+          alphaParticles={true}
+          disableRotation={true}
+        />
+      )}
+      {showTargetCursor && (
+        <TargetCursor spinDuration={2} hideDefaultCursor={true} containerRef={sectionRef} />
+      )}
+      <div
+        className={`content-centered-absolute mx-auto px-4 sm:px-6 lg:px-8 ${plans.length > 3 ? "max-w-[90rem]" : "max-w-6xl"}`}
+      >
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">Preços</h2>
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
+            {" "}
+            {showComparisonButton ? "Preços" : "Planos"}
+          </h2>
           <p className="mt-3 text-foreground/70">
             Escolha um plano para começar. Você pode mudar ou cancelar quando quiser.
           </p>
         </div>
         <div>
-          <div className="mt-10 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div
+            className={`mt-10 grid gap-6 sm:gap-8 ${
+              plans.length === 2
+                ? "sm:grid-cols-2"
+                : plans.length === 3
+                  ? "sm:grid-cols-2 lg:grid-cols-3"
+                  : "sm:grid-cols-2 lg:grid-cols-3"
+            }`}
+          >
             {plans.map((plan) => {
-              const ctaUrl = plan.id === "starter" ? tryUrl : plan.id === "agency" ? "#" : appUrl;
+              let ctaUrl = "#";
+              if (plan.id === "free") {
+                ctaUrl = tryUrl; // Link para testar de graça
+              } else if (plan.id === "freela") {
+                ctaUrl = tryUrl; // Link para começar como freela
+              } else if (plan.id === "starter") {
+                ctaUrl = tryUrl;
+              } else if (plan.id === "agency") {
+                ctaUrl = "#"; // Link de contato será tratado abaixo
+              } else if (plan.id === "enterprise") {
+                ctaUrl = "#contato"; // Link para contato/reunião
+              } else {
+                ctaUrl = appUrl;
+              }
+              const cursorClass = showTargetCursor ? "cursor-target" : "";
               return (
                 <div
                   key={plan.id}
-                  className={`cursor-target rounded-xl border border-foreground/10 p-6 shadow-sm flex flex-col justify-between relative transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#5B8CFF]/20 hover:border-[#5B8CFF]/30 ${
+                  className={`${cursorClass} rounded-xl border border-foreground/10 p-6 shadow-sm flex flex-col justify-between relative transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#5B8CFF]/20 hover:border-[#5B8CFF]/30 ${
                     plan.highlighted ? "bg-foreground/5" : "bg-background"
                   }`}
                 >
@@ -83,7 +126,7 @@ export default function Pricing({ showComparisonButton = false }: PricingProps) 
             <div className="mt-12 flex justify-center ">
               <Link
                 href="/planos"
-                className="cursor-target group relative inline-flex items-center justify-center rounded-xl border-2 border-[#5B8CFF]/30 bg-background/80 backdrop-blur-sm px-8 py-3 text-base font-semibold text-[#5B8CFF] shadow-md shadow-[#5B8CFF]/5 transition-all duration-300 hover:border-[#5B8CFF] hover:bg-[#5B8CFF]/10 hover:shadow-lg hover:shadow-[#5B8CFF]/20 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5B8CFF] focus-visible:ring-offset-2 pointer-events-auto"
+                className={`${showTargetCursor ? "cursor-target" : ""} group relative inline-flex items-center justify-center rounded-xl border-2 border-[#5B8CFF]/30 bg-background/80 backdrop-blur-sm px-8 py-3 text-base font-semibold text-[#5B8CFF] shadow-md shadow-[#5B8CFF]/5 transition-all duration-300 hover:border-[#5B8CFF] hover:bg-[#5B8CFF]/10 hover:shadow-lg hover:shadow-[#5B8CFF]/20 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5B8CFF] focus-visible:ring-offset-2 pointer-events-auto`}
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Veja todos os planos

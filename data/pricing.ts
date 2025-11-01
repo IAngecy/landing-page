@@ -9,9 +9,12 @@ export type Plan = {
 
 export type ComparisonFeature = {
   feature: string;
+  free?: boolean | "parcial";
+  freela?: boolean | "parcial";
   starter: boolean | "parcial";
   pro: boolean | "parcial";
   agency: boolean | "parcial";
+  enterprise?: boolean | "parcial";
 };
 
 export const plans: Plan[] = [
@@ -61,13 +64,16 @@ export const plans: Plan[] = [
 ];
 
 export const comparison: ComparisonFeature[] = [
-  { feature: "Geração de cronograma (IA)", starter: true, pro: true, agency: true },
-  { feature: "Edição antes de inserir", starter: true, pro: true, agency: true },
-  { feature: "Link público (aprovação)", starter: true, pro: true, agency: true },
-  { feature: "Kanban + Calendário", starter: true, pro: true, agency: true },
-  { feature: "Kanban + ações em lote", starter: "parcial", pro: true, agency: true },
-  { feature: "Agendamento", starter: true, pro: true, agency: true },
-  { feature: "Cota de IA com aviso", starter: true, pro: true, agency: true },
-  { feature: "Auditoria avançada", starter: false, pro: false, agency: true },
-  { feature: "Suporte prioritário", starter: false, pro: false, agency: true },
+  { feature: "Geração de cronograma (IA)", free: true, freela: true, starter: true, pro: true, agency: true, enterprise: true },
+  { feature: "Edição antes de inserir", free: true, freela: true, starter: true, pro: true, agency: true, enterprise: true },
+  { feature: "Link público (aprovação)", free: true, freela: true, starter: true, pro: true, agency: true, enterprise: true },
+  { feature: "Kanban + Calendário", free: true, freela: true, starter: true, pro: true, agency: true, enterprise: true },
+  { feature: "Kanban + ações em lote", free: false, freela: false, starter: "parcial", pro: true, agency: true, enterprise: true },
+  { feature: "Agendamento", free: true, freela: true, starter: true, pro: true, agency: true, enterprise: true },
+  { feature: "Cota de IA com aviso", free: true, freela: true, starter: true, pro: true, agency: true, enterprise: true },
+  { feature: "Dados mockados", free: true, freela: false, starter: false, pro: false, agency: false, enterprise: false },
+  { feature: "Auditoria avançada", free: false, freela: false, starter: false, pro: false, agency: true, enterprise: true },
+  { feature: "Suporte prioritário", free: false, freela: false, starter: false, pro: false, agency: true, enterprise: true },
+  { feature: "Consultoria especializada", free: false, freela: false, starter: false, pro: false, agency: false, enterprise: true },
+  { feature: "Integrações personalizadas", free: false, freela: false, starter: false, pro: false, agency: false, enterprise: true },
 ];

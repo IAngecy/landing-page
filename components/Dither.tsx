@@ -1,3 +1,4 @@
+// components/Dither.tsx
 import { Canvas, ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer, wrapEffect } from "@react-three/postprocessing";
 import { Effect } from "postprocessing";
@@ -131,6 +132,7 @@ void mainImage(in vec4 inputColor, in vec2 uv, out vec4 outputColor) {
 }
 `;
 
+// -------- RetroEffect (fix: wrapEffect fora do componente) --------
 class RetroEffectImpl extends Effect {
   public uniforms: Map<string, THREE.Uniform<any>>;
   constructor() {
@@ -155,16 +157,16 @@ class RetroEffectImpl extends Effect {
   }
 }
 
+const WrappedRetroEffect = wrapEffect(RetroEffectImpl);
+
 const RetroEffect = forwardRef<RetroEffectImpl, { colorNum: number; pixelSize: number }>(
-  (props, ref) => {
-    const { colorNum, pixelSize } = props;
-    const WrappedRetroEffect = wrapEffect(RetroEffectImpl);
+  ({ colorNum, pixelSize }, ref) => {
     return <WrappedRetroEffect ref={ref} colorNum={colorNum} pixelSize={pixelSize} />;
   }
 );
-
 RetroEffect.displayName = "RetroEffect";
 
+// -------- Types --------
 interface WaveUniforms {
   [key: string]: THREE.Uniform<any>;
   time: THREE.Uniform<number>;
@@ -190,6 +192,45 @@ interface DitheredWavesProps {
   mouseRadius: number;
 }
 
+interface DitherProps {
+  waveSpeed?: number;
+  waveFrequency?: number;
+  waveAmplitude?: number;
+  waveColor?: [number, number, number];
+  colorNum?: number;
+  pixelSize?: number;
+  disableAnimation?: boolean;
+  enableMouseInteraction?: boolean;
+  mouseRadius?: number;
+}
+
+// -------- Guard para perda/restauração de contexto --------
+function WebGLContextGuard() {
+  const { gl, invalidate } = useThree();
+  useEffect(() => {
+    const el = gl.domElement as HTMLCanvasElement;
+
+    const onLost = (e: Event) => {
+      // Impede o clear do buffer e permite restauração
+      e.preventDefault();
+    };
+    const onRestored = () => {
+      // Força rerender ao restaurar
+      invalidate();
+    };
+
+    el.addEventListener("webglcontextlost", onLost as EventListener, false);
+    el.addEventListener("webglcontextrestored", onRestored, false);
+    return () => {
+      el.removeEventListener("webglcontextlost", onLost as EventListener, false);
+      el.removeEventListener("webglcontextrestored", onRestored, false);
+    };
+  }, [gl, invalidate]);
+
+  return null;
+}
+
+// -------- DitheredWaves --------
 function DitheredWaves({
   waveSpeed,
   waveFrequency,
@@ -227,7 +268,7 @@ function DitheredWaves({
     }
   }, [size, gl]);
 
-  const prevColor = useRef([...waveColor]);
+  const prevColor = useRef<[number, number, number]>([...waveColor]);
   useFrame(({ clock }) => {
     const u = waveUniformsRef.current;
 
@@ -270,15 +311,17 @@ function DitheredWaves({
         />
       </mesh>
 
-      <EffectComposer>
+      {/* Composer com multisampling desligado para economizar VRAM */}
+      <EffectComposer multisampling={0}>
         <RetroEffect colorNum={colorNum} pixelSize={pixelSize} />
       </EffectComposer>
 
+      {/* Captura de mouse: invisível visualmente mas interativo */}
       <mesh
         onPointerMove={handlePointerMove}
         position={[0, 0, 0.01]}
         scale={[viewport.width, viewport.height, 1]}
-        visible={false}
+        visible={true}
       >
         <planeGeometry args={[1, 1]} />
         <meshBasicMaterial transparent opacity={0} />
@@ -287,18 +330,7 @@ function DitheredWaves({
   );
 }
 
-interface DitherProps {
-  waveSpeed?: number;
-  waveFrequency?: number;
-  waveAmplitude?: number;
-  waveColor?: [number, number, number];
-  colorNum?: number;
-  pixelSize?: number;
-  disableAnimation?: boolean;
-  enableMouseInteraction?: boolean;
-  mouseRadius?: number;
-}
-
+// -------- Componente principal --------
 export default function Dither({
   waveSpeed = 0.05,
   waveFrequency = 3,
@@ -314,9 +346,18 @@ export default function Dither({
     <Canvas
       className="w-full h-full relative"
       camera={{ position: [0, 0, 6] }}
-      dpr={1}
-      gl={{ antialias: true, preserveDrawingBuffer: true }}
+      // DPR travado para evitar explosão de memória em telas HiDPI
+      dpr={[1, 1]}
+      // Evite preserveDrawingBuffer; priorize performance
+      gl={{
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance",
+        preserveDrawingBuffer: false,
+      }}
     >
+      <WebGLContextGuard />
+
       <DitheredWaves
         waveSpeed={waveSpeed}
         waveFrequency={waveFrequency}

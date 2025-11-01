@@ -44,31 +44,37 @@ function DashIcon() {
   );
 }
 
-function FeatureCell({ value }: { value: boolean | "parcial" }) {
+function FeatureCell({ value }: { value: boolean | "parcial" | undefined }) {
   if (value === true) {
     return (
-      <td className="px-2 sm:px-4 py-4 text-center">
-        <CheckIcon />
+      <td className="px-2 sm:px-4 py-4">
+        <div className="flex items-center justify-center">
+          <CheckIcon />
+        </div>
       </td>
     );
   }
   if (value === "parcial") {
     return (
-      <td className="px-2 sm:px-4 py-4 text-center">
-        <PartialIcon />
+      <td className="px-2 sm:px-4 py-4">
+        <div className="flex items-center justify-center">
+          <PartialIcon />
+        </div>
       </td>
     );
   }
   return (
-    <td className="px-2 sm:px-4 py-4 text-center">
-      <DashIcon />
+    <td className="px-2 sm:px-4 py-4">
+      <div className="flex items-center justify-center">
+        <DashIcon />
+      </div>
     </td>
   );
 }
 
 export default function PricingComparison() {
   return (
-    <section className="py-12 sm:py-16 bg-background">
+    <section className="py-12 sm:py-16 bg-background mt-40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center mb-10">
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
@@ -86,6 +92,12 @@ export default function PricingComparison() {
                     Recurso
                   </th>
                   <th className="px-2 sm:px-4 py-4 text-center font-semibold text-foreground text-xs sm:text-sm">
+                    Testar de graça
+                  </th>
+                  <th className="px-2 sm:px-4 py-4 text-center font-semibold text-foreground text-xs sm:text-sm">
+                    Freela
+                  </th>
+                  <th className="px-2 sm:px-4 py-4 text-center font-semibold text-foreground text-xs sm:text-sm">
                     Starter
                   </th>
                   <th className="px-2 sm:px-4 py-4 text-center font-semibold text-foreground text-xs sm:text-sm">
@@ -93,6 +105,9 @@ export default function PricingComparison() {
                   </th>
                   <th className="px-2 sm:px-4 py-4 text-center font-semibold text-foreground text-xs sm:text-sm">
                     Agency
+                  </th>
+                  <th className="px-2 sm:px-4 py-4 text-center font-semibold text-foreground text-xs sm:text-sm">
+                    Enterprise
                   </th>
                 </tr>
               </thead>
@@ -102,9 +117,12 @@ export default function PricingComparison() {
                     <td className="px-3 sm:px-4 py-4 text-xs sm:text-sm text-foreground/80">
                       {item.feature}
                     </td>
+                    <FeatureCell value={item.free} />
+                    <FeatureCell value={item.freela} />
                     <FeatureCell value={item.starter} />
                     <FeatureCell value={item.pro} />
                     <FeatureCell value={item.agency} />
+                    <FeatureCell value={item.enterprise} />
                   </tr>
                 ))}
               </tbody>
