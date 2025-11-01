@@ -1,7 +1,7 @@
 {
   "buildCommand": "yarn build",
   "devCommand": "yarn dev",
-  "installCommand": "yarn install",
+  "installCommand": "yarn install --frozen-lockfile",
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
@@ -11,8 +11,8 @@
   },
   "build": {
     "env": {
-      "NEXT_PRIVATE_STANDALONE": "true"
+      "NEXT_PRIVATE_STANDALONE": "true",
+      "NODE_OPTIONS": "--max-old-space-size=4096"
     }
   }
 }
-
