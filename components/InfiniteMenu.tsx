@@ -1225,7 +1225,12 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
           }
         `}
           >
-            <span className="select-none relative text-[#060010] top-[2px] text-[26px]" aria-hidden="true">&#x2197;</span>
+            <span
+              className="select-none relative text-[#060010] top-[2px] text-[26px]"
+              aria-hidden="true"
+            >
+              &#x2197;
+            </span>
           </button>
         </>
       )}

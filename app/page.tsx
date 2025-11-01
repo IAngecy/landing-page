@@ -1,10 +1,10 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import dynamic from "next/dynamic";
 import Pricing from "@/components/Pricing";
 import Workflow from "@/components/Workflow";
 import { posts } from "@/data/pricing";
+import dynamic from "next/dynamic";
 
 const InfiniteMenu = dynamic(() => import("@/components/InfiniteMenu"), {
   ssr: false,
