@@ -103,7 +103,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
     [children]
   );
   const refs = useMemo<CardRef[]>(
-    () => childArr.map(() => React.createRef<HTMLDivElement>()),
+    () => childArr.map(() => React.createRef<HTMLDivElement | null>()),
     [childArr.length]
   );
 
