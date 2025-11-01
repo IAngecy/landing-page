@@ -58,20 +58,27 @@ const planosPagePlans: Plan[] = [
 ];
 
 export const metadata: Metadata = {
-  title: "Planos e Preços — Social Scheduler AI",
+  title: "Planos e Preços",
   description:
-    "Escolha o plano ideal para sua agência. Planos desde R$ 0/mês. Starter, Pro e Agency — veja o comparativo completo de recursos e o que está incluído em cada plano.",
+    "Escolha o plano ideal para sua agência. Planos desde R$ 0/mês. Testar de graça, Freela, Starter, Pro, Agency e Enterprise — veja o comparativo completo de recursos e o que está incluído em cada plano.",
+  keywords: [
+    "planos social scheduler",
+    "preços agendamento redes sociais",
+    "preços cronograma social media",
+    "planos agência marketing",
+    "preços IA redes sociais",
+  ],
   openGraph: {
     title: "Planos e Preços — Social Scheduler AI",
     description:
-      "Escolha o plano ideal para sua agência. Planos desde R$ 0/mês. Starter, Pro e Agency — veja o comparativo completo de recursos.",
+      "Escolha o plano ideal para sua agência. Planos desde R$ 0/mês. Testar de graça, Freela, Starter, Pro, Agency e Enterprise — veja o comparativo completo de recursos.",
     url: "https://example.com/planos",
     siteName: "Social Scheduler AI",
     type: "website",
     locale: "pt_BR",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Planos e Preços — Social Scheduler AI",
     description:
       "Escolha o plano ideal para sua agência. Planos desde R$ 0/mês. Veja o comparativo completo de recursos.",

@@ -2,16 +2,17 @@
 
 import { getHelpUrl, getTryUrl } from "@/lib/links";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import SplitText from "./SplitText";
 
-import Dither from "./Dither";
+const Dither = dynamic(() => import("./Dither"), {
+  ssr: false,
+  loading: () => <div className="background-animation-content" />,
+});
 
 export default function Hero() {
   const tryUrl = getTryUrl();
   const helpUrl = getHelpUrl();
-  const handleAnimationComplete = () => {
-    console.log("All letters have animated!");
-  };
 
   return (
     <section className="relative isolate overflow-hidden">
@@ -27,7 +28,7 @@ export default function Hero() {
           waveSpeed={0.05}
         />
       </div>
-      <div className="h-full w-full absolute top-0 left-0 bg-black/10 z-10s pointer-events-none" />
+      <div className="h-full w-full absolute top-0 left-0 bg-black/10 z-10 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-24 sm:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <SplitText
@@ -42,7 +43,6 @@ export default function Hero() {
             threshold={0.1}
             rootMargin="-100px"
             textAlign="center"
-            onLetterAnimationComplete={handleAnimationComplete}
             tag="h1"
           />
           <p className="mt-5 text-lg">
@@ -98,7 +98,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      {/* <ColorBendsBackground /> */}
     </section>
   );
 }

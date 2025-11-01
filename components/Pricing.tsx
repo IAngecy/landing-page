@@ -2,10 +2,17 @@
 
 import { plans as defaultPlans, type Plan } from "@/data/pricing";
 import { getAppUrl, getTryUrl } from "@/lib/links";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRef } from "react";
-import Particles from "./Particles";
-import TargetCursor from "./TargetCursor";
+
+const Particles = dynamic(() => import("./Particles"), {
+  ssr: false,
+});
+
+const TargetCursor = dynamic(() => import("./TargetCursor"), {
+  ssr: false,
+});
 
 interface PricingProps {
   showComparisonButton?: boolean;
