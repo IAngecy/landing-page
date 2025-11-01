@@ -3,7 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Otimizações de performance
   compress: true,
-  
+
+  // Otimizações de build para animações pesadas
+  experimental: {
+    // Otimiza imports pesados
+    optimizePackageImports: ["gsap", "three", "@react-three/fiber"],
+  },
+
   // Otimização de imagens
   images: {
     formats: ["image/avif", "image/webp"],

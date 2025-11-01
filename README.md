@@ -60,6 +60,64 @@ npm start
 - `yarn lint` - Executa o linter
 - `yarn format` - Formata o código
 
+## 🚀 Deploy
+
+### Vercel (Recomendado)
+
+A melhor plataforma para fazer deploy desta aplicação é o **Vercel** (criadores do Next.js), pois oferece:
+
+- ✅ Otimização automática do Next.js
+- ✅ Edge Functions para reduzir latência
+- ✅ Image Optimization nativo
+- ✅ Suporte excelente para builds complexos com animações pesadas
+- ✅ Deploy automático via Git
+- ✅ Analytics e monitoring integrados
+- ✅ Preview deployments para cada PR
+- ✅ CDN global para assets estáticos
+
+#### Passos para Deploy no Vercel:
+
+1. **Instalar Vercel CLI** (opcional):
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy via Dashboard**:
+   - Acesse [vercel.com](https://vercel.com)
+   - Conecte seu repositório GitHub/GitLab/Bitbucket
+   - Configure as variáveis de ambiente (ver `.env.example`)
+   - Clique em "Deploy"
+
+3. **Deploy via CLI**:
+   ```bash
+   vercel
+   ```
+
+4. **Configurar Variáveis de Ambiente**:
+   ```
+   NEXT_PUBLIC_APP_URL=https://app.exemplo.com
+   NEXT_PUBLIC_TRY_URL=https://app.exemplo.com/try
+   NEXT_PUBLIC_HELP_URL=https://help.exemplo.com
+   ```
+
+#### Otimizações Aplicadas:
+
+- ✅ Dynamic imports para componentes pesados (Dither, Particles, TargetCursor)
+- ✅ Compressão gzip habilitada
+- ✅ Otimização de imagens com AVIF/WebP
+- ✅ Cache headers configurados
+- ✅ Bundle optimization para GSAP e Three.js
+
+### Alternativas
+
+**Netlify**: Também funciona bem, mas sem otimizações específicas do Next.js
+**Railway**: Boa para apps com muitas dependências, mas pode ser mais caro
+**AWS Amplify**: Complexo, melhor para empresas grandes
+
+### Build Times
+
+Com as animações pesadas (Three.js, GSAP), o build inicial pode levar 3-5 minutos. Isso é normal e o Vercel otimiza builds subsequentes usando cache.
+
 ---
 
 Desenvolvido com ❤️ para apresentar o Social Scheduler AI
